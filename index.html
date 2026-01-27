@@ -2562,7 +2562,7 @@
                     <!-- Moving Prices Grid -->
                     <div class="prices-slider-container">
                         <div class="prices-slider-track">
-                            <!-- Original 3 cards -->
+                            <!-- كرر البطاقات 4 مرات للحصول على حركة سلسة -->
                             <div class="price-card">
                                 <div class="price-country">
                                     <span class="country-flag-icon">🇸🇩</span>
@@ -2593,7 +2593,37 @@
                                 <div class="price-note">توصيل خلال 48 ساعة</div>
                             </div>
                             
-                            <!-- Duplicate cards for seamless loop -->
+                            <!-- تكرار البطاقات للحصول على loop سلس -->
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇸🇩</span>
+                                    <span class="country-name">السودان</span>
+                                </div>
+                                <div class="price-amount">155,000</div>
+                                <span class="price-currency">جنيه سوداني</span>
+                                <div class="price-note">التوصيل مجاناً</div>
+                            </div>
+
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇸🇦</span>
+                                    <span class="country-name">السعودية</span>
+                                </div>
+                                <div class="price-amount">300</div>
+                                <span class="price-currency">ريال سعودي</span>
+                                <div class="price-note">شحن سريع 2-3 أيام</div>
+                            </div>
+
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇪🇬</span>
+                                    <span class="country-name">مصر</span>
+                                </div>
+                                <div class="price-amount">1,500</div>
+                                <span class="price-currency">جنيه مصري</span>
+                                <div class="price-note">توصيل خلال 48 ساعة</div>
+                            </div>
+                            
                             <div class="price-card">
                                 <div class="price-country">
                                     <span class="country-flag-icon">🇸🇩</span>
@@ -2646,7 +2676,7 @@
 </section>
 
 <style>
-    /* Moving Prices Slider - حركة بطيئة ومتكررة */
+    /* Moving Prices Slider - حركة سريعة ومتكررة بشكل سلس */
     .prices-slider-container {
         width: 100%;
         overflow: hidden;
@@ -2662,16 +2692,16 @@
     .prices-slider-track {
         display: flex;
         width: max-content;
-        animation: slideSlowly 40s linear infinite;
+        animation: slideSmoothly 20s linear infinite;
         padding: 0 5px;
     }
 
-    @keyframes slideSlowly {
+    @keyframes slideSmoothly {
         0% {
             transform: translateX(0);
         }
         100% {
-            transform: translateX(-50%);
+            transform: translateX(-33.333%);
         }
     }
 
@@ -2690,7 +2720,7 @@
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
-        margin: 0 4px;
+        margin: 0 8px;
         flex-shrink: 0;
     }
 
@@ -2698,6 +2728,7 @@
         transform: translateY(-2px);
         border-color: var(--color-gold);
         box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+        animation-play-state: paused;
     }
 
     .price-country {
@@ -2853,7 +2884,7 @@
             width: 160px;
             min-height: 100px;
             padding: 10px 8px;
-            margin: 0 6px;
+            margin: 0 10px;
         }
         
         .price-amount {
@@ -2873,9 +2904,9 @@
             font-size: 11px;
         }
         
-        /* إبطاء الحركة أكثر على الديسكتوب */
+        /* سرعة أسرع قليلاً على الديسكتوب */
         .prices-slider-track {
-            animation: slideSlowly 50s linear infinite;
+            animation: slideSmoothly 25s linear infinite;
         }
     }
 
@@ -2901,7 +2932,7 @@
             width: 180px;
             min-height: 110px;
             padding: 12px 10px;
-            margin: 0 8px;
+            margin: 0 12px;
         }
         
         .price-amount {
@@ -2925,23 +2956,23 @@
             font-size: 12px;
         }
         
-        /* أبطأ حركة على الشاشات الكبيرة */
+        /* سرعة متوسطة على الشاشات الكبيرة */
         .prices-slider-track {
-            animation: slideSlowly 60s linear infinite;
+            animation: slideSmoothly 30s linear infinite;
         }
     }
 
     /* تعديلات للموبايل والصغير */
     @media (max-width: 767px) {
         .prices-slider-track {
-            animation: slideSlowly 30s linear infinite;
+            animation: slideSmoothly 15s linear infinite;
         }
         
         .price-card {
             width: 120px;
             min-height: 85px;
             padding: 6px 4px;
-            margin: 0 3px;
+            margin: 0 6px;
         }
         
         .price-amount {
@@ -2971,6 +3002,21 @@
         animation-play-state: paused;
     }
 
+    /* تحسينات للحركة المتكررة السلسة */
+    @keyframes slideSmoothly {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-33.333%); /* تتحرك 3 بطاقات فقط (المجموعة الأولى) */
+        }
+    }
+
+    /* التأكد من أن البطاقات تظهر بشكل متساوٍ */
+    .prices-slider-track {
+        will-change: transform;
+    }
+
     /* Reduced motion preference */
     @media (prefers-reduced-motion: reduce) {
         .prices-slider-track {
@@ -2985,6 +3031,49 @@
         }
     }
 </style>
+
+<script>
+    // تحسين حركة البطاقات للتأكد من أنها تعمل بشكل صحيح
+    document.addEventListener('DOMContentLoaded', function() {
+        const pricesSliderTrack = document.querySelector('.prices-slider-track');
+        const priceCards = document.querySelectorAll('.price-card');
+        
+        // التأكد من أن جميع البطاقات تظهر
+        if (pricesSliderTrack && priceCards.length > 0) {
+            console.log('تم تحميل بطاقات الأسعار:', priceCards.length, 'بطاقة');
+            
+            // إعادة تشغيل الأنيميشن للتأكد من أنها تعمل
+            pricesSliderTrack.style.animation = 'none';
+            setTimeout(() => {
+                pricesSliderTrack.style.animation = '';
+            }, 10);
+            
+            // تحديث عرض الـ track بناءً على عدد البطاقات
+            const cardWidth = 140; // العرض التقريبي للبطاقة مع margin
+            const totalWidth = priceCards.length * cardWidth;
+            pricesSliderTrack.style.width = totalWidth + 'px';
+            
+            // تحديث قيمة الـ translate في الأنيميشن
+            const styleSheet = document.styleSheets[0];
+            const translateValue = -((priceCards.length / 3) * 33.333) + '%';
+            
+            // إنشاء keyframes جديدة
+            const keyframes = `
+                @keyframes slideSmoothly {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(${translateValue});
+                    }
+                }
+            `;
+            
+            // إضافة الـ keyframes الجديدة
+            styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+        }
+    });
+</script>
     <!-- Video Demo Section - التصميم الأصلي -->
     <section class="video-demo-section" id="video-demo">
         <div class="container video-demo-container">
