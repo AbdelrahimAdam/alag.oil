@@ -2436,89 +2436,108 @@
 </style>
 
 <script>
-    // Mobile Menu JavaScript
     document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mainNav = document.getElementById('mainNav');
+        const navOverlay = document.getElementById('navOverlay');
         const navLinks = document.querySelectorAll('.nav-link');
-        
-        // إنشاء عنصر الـ overlay إذا لم يكن موجوداً
-        let navOverlay = document.getElementById('navOverlay');
-        if (!navOverlay) {
-            navOverlay = document.createElement('div');
-            navOverlay.className = 'nav-overlay';
-            navOverlay.id = 'navOverlay';
-            document.body.appendChild(navOverlay);
-        }
 
-        function toggleMenu() {
+        if (!mobileMenuBtn || !mainNav || !navOverlay) return;
+
+        function toggleMenu(isOpening = null) {
             const isOpen = mainNav.classList.contains('open');
-            
-            if (isOpen) {
-                // إغلاق القائمة
-                mainNav.classList.remove('open');
-                navOverlay.classList.remove('open');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = 'auto';
-            } else {
+            const shouldOpen = isOpening !== null ? isOpening : !isOpen;
+
+            if (shouldOpen) {
                 // فتح القائمة
                 mainNav.classList.add('open');
                 navOverlay.classList.add('open');
                 mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
                 mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                mobileMenuBtn.setAttribute('aria-label', 'إغلاق القائمة');
                 document.body.style.overflow = 'hidden';
+                
+                // إزالة aria-hidden عندما تكون القائمة مفتوحة
+                mainNav.removeAttribute('aria-hidden');
+                
+                // أو استخدام inert (إن كان مدعوماً)
+                // mainNav.removeAttribute('inert');
+                
+            } else {
+                // إغلاق القائمة
+                mainNav.classList.remove('open');
+                navOverlay.classList.remove('open');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                mobileMenuBtn.setAttribute('aria-label', 'فتح القائمة');
+                document.body.style.overflow = 'auto';
+                
+                // إضافة aria-hidden فقط عندما تكون القائمة مغلقة
+                mainNav.setAttribute('aria-hidden', 'true');
+                
+                // أو استخدام inert (إن كان مدعوماً)
+                // mainNav.setAttribute('inert', '');
+            }
+        }
+
+        function closeMenu() {
+            if (mainNav.classList.contains('open')) {
+                toggleMenu(false);
             }
         }
 
         // إضافة Event Listeners
-        if (mobileMenuBtn && mainNav && navOverlay) {
-            mobileMenuBtn.addEventListener('click', toggleMenu);
-            navOverlay.addEventListener('click', toggleMenu);
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
 
-            // إغلاق القائمة عند النقر على رابط
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
-                        toggleMenu();
-                    }
-                });
-            });
+        navOverlay.addEventListener('click', closeMenu);
 
-            // إغلاق القائمة بمفتاح Escape
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && mainNav.classList.contains('open')) {
-                    toggleMenu();
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    closeMenu();
                 }
             });
-        }
+        });
 
-        // التأكد من أن القائمة تظهر على الديسكتوب
-        function handleResize() {
-            if (window.innerWidth >= 769) {
-                // على الديسكتوب، تأكد من أن القائمة مفتوحة
-                mainNav.classList.add('open');
-                navOverlay.classList.remove('open');
-                document.body.style.overflow = 'auto';
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            } else {
-                // على الموبايل، إذا كانت القائمة مفتوحة، أعد تعيين الحالة
-                if (mainNav.classList.contains('open')) {
-                    mainNav.classList.remove('open');
-                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mainNav.classList.contains('open')) {
+                closeMenu();
             }
+        });
+
+        // إغلاق عند النقر خارج القائمة
+        document.addEventListener('click', (e) => {
+            if (mainNav.classList.contains('open') && 
+                !mainNav.contains(e.target) && 
+                !mobileMenuBtn.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        // التهيئة
+        function initializeMenu() {
+            // إعداد ARIA فقط عندما تكون القائمة مغلقة
+            if (!mainNav.classList.contains('open')) {
+                mainNav.setAttribute('aria-hidden', 'true');
+            }
+            mainNav.setAttribute('role', 'navigation');
+            mainNav.setAttribute('aria-label', 'القائمة الرئيسية');
+            
+            navLinks.forEach(link => {
+                link.setAttribute('role', 'menuitem');
+            });
+            
+            mobileMenuBtn.setAttribute('aria-label', 'فتح القائمة');
+            mobileMenuBtn.setAttribute('aria-controls', 'mainNav');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
 
-        window.addEventListener('resize', handleResize);
-        handleResize(); // استدعاء أولي
+        initializeMenu();
     });
 </script>
-
-    <!-- Overlay for mobile menu -->
-    <div class="nav-overlay" id="navOverlay"></div>
 
 <!-- Hero Section - نصف الشاشة -->
 <section class="hero" id="home">
@@ -3976,117 +3995,388 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </section>
+<!-- Pricing Section - Simple Responsive Design -->
+<section class="section section-dark" id="pricing">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">الأسعار</h2>
+            <p class="section-subtitle">استثمار في صحتك وثقتك</p>
+        </div>
 
-    <!-- Pricing Section -->
-    <section class="section section-dark" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">الأسعار</h2>
-                <p class="section-subtitle">استثمار في صحتك وثقتك</p>
+        <div class="simple-pricing-grid">
+            <div class="simple-price-row">
+                <div class="price-content">
+                    <span class="country-name">السعودية</span>
+                    <span class="price-amount">300 ريال</span>
+                </div>
+                <button class="simple-order-btn disabled" onclick="showKSAWhatsappModal()" disabled>
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="btn-text">قريباً</span>
+                </button>
             </div>
-
-            <div class="pricing-grid">
-                <!-- Sudan Card -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <div class="country-flag">
-                            <i class="fas fa-globe-africa"></i>
-                        </div>
-                        <h3 class="country-name">السودان</h3>
-                        <div class="pricing-tag">الأكثر طلباً</div>
-                    </div>
-
-                    <div class="pricing-body">
-                        <div class="price-display">
-                            <span class="price-amount">155,000</span>
-                            <span class="price-currency">جنيه سوداني</span>
-                        </div>
-
-                        <ul class="package-features">
-                            <li><i class="fas fa-check"></i> تركيز عالي من العلقين</li>
-                            <li><i class="fas fa-check"></i> تعبئة فاخرة</li>
-                            <li><i class="fas fa-check"></i> دليل استخدام مفصل</li>
-                            <li><i class="fas fa-check"></i> متابعة شخصية</li>
-                            <li><i class="fas fa-check"></i> توصيل لجميع الولايات</li>
-                        </ul>
-                    </div>
-
-                    <div class="pricing-footer">
-                        <a href="#contact" class="btn btn-primary btn-block">
-                            <i class="fab fa-whatsapp"></i>
-                            اطلب الآن
-                        </a>
-                    </div>
+            
+            <div class="simple-price-row">
+                <div class="price-content">
+                    <span class="country-name">مصر</span>
+                    <span class="price-amount">1,500 جنيه</span>
                 </div>
-
-                <!-- Saudi Arabia Card -->
-                <div class="pricing-card featured">
-                    <div class="pricing-header">
-                        <div class="country-flag">
-                            <i class="fas fa-kaaba"></i>
-                        </div>
-                        <h3 class="country-name">السعودية</h3>
-                        <div class="pricing-tag">الأكثر مبيعاً</div>
-                    </div>
-
-                    <div class="pricing-body">
-                        <div class="price-display">
-                            <span class="price-amount">300</span>
-                            <span class="price-currency">ريال سعودي</span>
-                        </div>
-
-                        <ul class="package-features">
-                            <li><i class="fas fa-check"></i> تركيز فائق من العلقين</li>
-                            <li><i class="fas fa-check"></i> تعبئة فاخرة مقاومة للكسر</li>
-                            <li><i class="fas fa-check"></i> دليل استخدام بالفيديو</li>
-                            <li><i class="fas fa-check"></i> متابعة أسبوعية</li>
-                            <li><i class="fas fa-check"></i> توصيل سريع 2-3 أيام</li>
-                        </ul>
-                    </div>
-
-                    <div class="pricing-footer">
-                        <a href="#contact" class="btn btn-primary btn-block">
-                            <i class="fab fa-whatsapp"></i>
-                            اطلب الآن
-                        </a>
-                    </div>
+                <button class="simple-order-btn disabled" disabled>
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="btn-text">قريباً</span>
+                </button>
+            </div>
+            
+            <div class="simple-price-row featured">
+                <div class="price-content">
+                    <span class="country-name">السودان</span>
+                    <span class="price-amount">155,000 جنيه</span>
                 </div>
-
-                <!-- Egypt Card -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <div class="country-flag">
-                            <i class="fas fa-monument"></i>
-                        </div>
-                        <h3 class="country-name">مصر</h3>
-                        <div class="pricing-tag">جديد</div>
-                    </div>
-
-                    <div class="pricing-body">
-                        <div class="price-display">
-                            <span class="price-amount">1,500</span>
-                            <span class="price-currency">جنيه مصري</span>
-                        </div>
-
-                        <ul class="package-features">
-                            <li><i class="fas fa-check"></i> تركيز مثالي من العلقين</li>
-                            <li><i class="fas fa-check"></i> تعبئة أنيقة</li>
-                            <li><i class="fas fa-check"></i> دليل استخدام باللغة العربية</li>
-                            <li><i class="fas fa-check"></i> استشارة مجانية</li>
-                            <li><i class="fas fa-check"></i> توصيل خلال 24-48 ساعة</li>
-                        </ul>
-                    </div>
-
-                    <div class="pricing-footer">
-                        <a href="#contact" class="btn btn-primary btn-block">
-                            <i class="fab fa-whatsapp"></i>
-                            اطلب الآن
-                        </a>
-                    </div>
-                </div>
+                <a href="https://wa.me/249920887972" class="simple-order-btn active" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="btn-text">طلب</span>
+                </a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<style>
+    /* Simple Pricing Grid - Responsive */
+    .simple-pricing-grid {
+        max-width: 600px;
+        margin: 0 auto;
+        background: rgba(26, 26, 26, 0.9);
+        border-radius: 12px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .simple-price-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: background-color 0.3s ease;
+    }
+    
+    .simple-price-row.featured {
+        background: rgba(212, 175, 55, 0.05);
+        border-right: 3px solid var(--color-gold);
+    }
+    
+    .simple-price-row:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .simple-price-row.featured:hover {
+        background: rgba(212, 175, 55, 0.08);
+    }
+    
+    .simple-price-row:last-child {
+        border-bottom: none;
+    }
+    
+    .price-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex: 1;
+    }
+    
+    .country-name {
+        font-size: 18px;
+        color: var(--color-white);
+        font-weight: 500;
+        min-width: 80px;
+    }
+    
+    .simple-price-row.featured .country-name {
+        color: var(--color-gold);
+        font-weight: 600;
+    }
+    
+    .price-amount {
+        font-size: 18px;
+        color: var(--color-gold);
+        font-weight: 700;
+        direction: ltr;
+        text-align: left;
+    }
+    
+    .simple-price-row.featured .price-amount {
+        color: var(--color-white);
+        background: var(--color-gold-transparent);
+        padding: 4px 12px;
+        border-radius: 6px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+    
+    /* Active WhatsApp Button (Sudan) */
+    .simple-order-btn.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-width: 100px;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+    }
+    
+    .simple-order-btn.active:hover {
+        background: linear-gradient(135deg, #1da851 0%, #0d7d68 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
+    }
+    
+    .simple-order-btn.active:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(37, 211, 102, 0.2);
+    }
+    
+    .simple-order-btn.active i {
+        font-size: 16px;
+    }
+    
+    .simple-order-btn.active .btn-text {
+        font-size: 14px;
+    }
+    
+    /* Disabled WhatsApp Buttons (KSA & Egypt) */
+    .simple-order-btn.disabled {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: rgba(100, 100, 100, 0.3);
+        color: var(--color-light-gray);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: not-allowed;
+        text-decoration: none;
+        min-width: 100px;
+        opacity: 0.7;
+    }
+    
+    .simple-order-btn.disabled i {
+        font-size: 16px;
+        opacity: 0.5;
+    }
+    
+    .simple-order-btn.disabled .btn-text {
+        font-size: 14px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .simple-pricing-grid {
+            max-width: 95%;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+        
+        .simple-price-row {
+            padding: 15px 20px;
+            flex-wrap: wrap;
+        }
+        
+        .simple-price-row.featured {
+            border-right: 4px solid var(--color-gold);
+        }
+        
+        .price-content {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        
+        .country-name {
+            font-size: 16px;
+            min-width: auto;
+        }
+        
+        .price-amount {
+            font-size: 16px;
+            text-align: right;
+            width: 100%;
+        }
+        
+        .simple-price-row.featured .price-amount {
+            padding: 3px 10px;
+            font-size: 15px;
+        }
+        
+        .simple-order-btn.active,
+        .simple-order-btn.disabled {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 14px;
+            min-width: auto;
+        }
+        
+        .simple-order-btn.active i,
+        .simple-order-btn.disabled i {
+            font-size: 15px;
+        }
+        
+        .simple-order-btn.active .btn-text,
+        .simple-order-btn.disabled .btn-text {
+            font-size: 13px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .simple-pricing-grid {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        .simple-price-row {
+            padding: 12px 15px;
+        }
+        
+        .simple-price-row.featured {
+            border-right: 3px solid var(--color-gold);
+        }
+        
+        .country-name {
+            font-size: 15px;
+        }
+        
+        .price-amount {
+            font-size: 15px;
+        }
+        
+        .simple-price-row.featured .price-amount {
+            padding: 2px 8px;
+            font-size: 14px;
+        }
+        
+        .simple-order-btn.active,
+        .simple-order-btn.disabled {
+            padding: 10px 18px;
+            font-size: 13px;
+        }
+        
+        .simple-order-btn.active i,
+        .simple-order-btn.disabled i {
+            font-size: 14px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .simple-pricing-grid {
+            max-width: 700px;
+        }
+        
+        .simple-price-row {
+            padding: 20px 30px;
+        }
+        
+        .simple-price-row.featured {
+            border-right: 4px solid var(--color-gold);
+        }
+        
+        .country-name {
+            font-size: 19px;
+        }
+        
+        .price-amount {
+            font-size: 19px;
+        }
+        
+        .simple-price-row.featured .price-amount {
+            padding: 5px 15px;
+            font-size: 18px;
+        }
+        
+        .simple-order-btn.active,
+        .simple-order-btn.disabled {
+            padding: 11px 28px;
+            font-size: 16px;
+            min-width: 110px;
+        }
+        
+        .simple-order-btn.active i,
+        .simple-order-btn.disabled i {
+            font-size: 17px;
+        }
+        
+        .simple-order-btn.active .btn-text,
+        .simple-order-btn.disabled .btn-text {
+            font-size: 15px;
+        }
+    }
+    
+    /* Animation for rows */
+    @keyframes fadeInRow {
+        from {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .simple-price-row {
+        animation: fadeInRow 0.5s ease-out forwards;
+        opacity: 0;
+    }
+    
+    .simple-price-row:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+    
+    .simple-price-row:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .simple-price-row:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+    
+    /* Pulse animation for Sudan button */
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+        50% {
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        }
+        100% {
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+    }
+    
+    .simple-order-btn.active {
+        animation: pulse 2s infinite;
+    }
+    
+    /* Hover effects for desktop only */
+    @media (hover: hover) and (pointer: fine) {
+        .simple-price-row:hover .simple-order-btn.active {
+            transform: scale(1.05);
+            animation: none;
+        }
+    }
+</style>
 
     <!-- Contact Hero -->
     <section class="contact-hero" id="contact-hero">

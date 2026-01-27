@@ -277,7 +277,34 @@ ul, ol {
     letter-spacing: 1px;
 }
 
-/* Navigation - FIXED FOR MOBILE */
+/* =========================================== */
+/* Mobile Navigation - FIXED */
+/* =========================================== */
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: var(--transition-fast);
+    min-width: 44px;
+    min-height: 44px;
+    z-index: 1001;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.mobile-menu-btn:hover {
+    color: var(--color-gold);
+}
+
+/* Desktop Navigation */
 .main-nav {
     display: flex;
     align-items: center;
@@ -322,27 +349,24 @@ ul, ol {
     width: 100%;
 }
 
-/* Mobile Menu Button - FIXED POSITION */
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--color-white);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: var(--transition-fast);
-    min-width: 44px;
-    min-height: 44px;
-    z-index: 1001;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+/* Mobile Menu Overlay */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
-.mobile-menu-btn:hover {
-    color: var(--color-gold);
+.nav-overlay.open {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* =========================================== */
@@ -1126,6 +1150,145 @@ ul, ol {
     margin-bottom: var(--spacing-xl);
 }
 
+/* Simple Pricing Grid */
+.simple-pricing-grid {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(26, 26, 26, 0.9);
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.simple-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.simple-price-row.featured {
+    background: rgba(212, 175, 55, 0.05);
+    border-right: 3px solid var(--color-gold);
+}
+
+.simple-price-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.simple-price-row.featured:hover {
+    background: rgba(212, 175, 55, 0.08);
+}
+
+.simple-price-row:last-child {
+    border-bottom: none;
+}
+
+.price-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.country-name {
+    font-size: 18px;
+    color: var(--color-white);
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.simple-price-row.featured .country-name {
+    color: var(--color-gold);
+    font-weight: 600;
+}
+
+.price-amount {
+    font-size: 18px;
+    color: var(--color-gold);
+    font-weight: 700;
+    direction: ltr;
+    text-align: left;
+}
+
+.simple-price-row.featured .price-amount {
+    color: var(--color-white);
+    background: var(--color-gold-transparent);
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Active WhatsApp Button (Sudan) */
+.simple-order-btn.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 100px;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+}
+
+.simple-order-btn.active:hover {
+    background: linear-gradient(135deg, #1da851 0%, #0d7d68 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
+}
+
+.simple-order-btn.active:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.2);
+}
+
+.simple-order-btn.active i {
+    font-size: 16px;
+}
+
+.simple-order-btn.active .btn-text {
+    font-size: 14px;
+}
+
+/* Disabled WhatsApp Buttons (KSA & Egypt) */
+.simple-order-btn.disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(100, 100, 100, 0.3);
+    color: var(--color-light-gray);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: not-allowed;
+    text-decoration: none;
+    min-width: 100px;
+    opacity: 0.7;
+}
+
+.simple-order-btn.disabled i {
+    font-size: 16px;
+    opacity: 0.5;
+}
+
+.simple-order-btn.disabled .btn-text {
+    font-size: 14px;
+}
+
 /* Pricing Grid */
 .pricing-grid {
     display: grid;
@@ -1783,58 +1946,112 @@ ul, ol {
 
 /* Tablets */
 @media (max-width: 992px) {
-    /* Mobile Menu Styles */
+    /* Mobile Menu Button */
     .mobile-menu-btn {
         display: flex;
         align-items: center;
         justify-content: center;
     }
     
-    .nav-links {
+    /* Desktop Navigation Hidden on Mobile */
+    .main-nav {
         display: none;
+    }
+    
+    /* Mobile Navigation Menu */
+    .main-nav {
         position: fixed;
-        top: 80px;
-        right: 0;
-        width: 100%;
-        background: rgba(10, 10, 10, 0.98);
+        top: 0;
+        right: -100%;
+        width: 85%;
+        height: 100vh;
+        background: rgba(15, 15, 20, 0.98);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        flex-direction: column;
-        padding: var(--spacing-lg) var(--spacing-xl);
-        border-top: 1px solid rgba(212, 175, 55, 0.2);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        gap: var(--spacing-md);
+        padding: 80px var(--spacing-lg) var(--spacing-xl);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 1000;
-        max-height: calc(100vh - 80px);
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
         overflow-y: auto;
-    }
-    
-    .nav-links.show {
         display: flex;
-        animation: slideDown 0.3s ease-out;
+        flex-direction: column;
     }
     
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .main-nav.open {
+        right: 0;
+        display: flex;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        width: 100%;
     }
     
     .nav-link {
-        padding: var(--spacing-md);
-        font-size: 1.1rem;
+        color: var(--color-white);
+        font-weight: 500;
+        font-size: var(--text-lg);
+        padding: var(--spacing-md) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-normal);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        width: 100%;
-        text-align: right;
     }
     
-    .nav-link:last-child {
-        border-bottom: none;
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--color-gold);
+        background: rgba(212, 175, 55, 0.1);
+        transform: translateX(-5px);
+    }
+    
+    .nav-link::after {
+        display: none; /* Hide underline on mobile */
+    }
+    
+    /* Simple Pricing Grid Responsive */
+    .simple-pricing-grid {
+        max-width: 95%;
+    }
+    
+    .simple-price-row {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+    }
+    
+    .price-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .country-name {
+        font-size: 16px;
+        min-width: auto;
+    }
+    
+    .price-amount {
+        font-size: 16px;
+        text-align: right;
+        width: 100%;
+    }
+    
+    .simple-price-row.featured .price-amount {
+        padding: 3px 10px;
+        font-size: 15px;
+    }
+    
+    .simple-order-btn.active,
+    .simple-order-btn.disabled {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 14px;
+        min-width: auto;
     }
     
     .process-timeline::before {
@@ -1974,6 +2191,39 @@ ul, ol {
     .video-placeholder-subtext {
         font-size: 1rem;
     }
+    
+    /* Simple Pricing Grid Mobile */
+    .simple-pricing-grid {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+    
+    .simple-price-row {
+        padding: 12px 15px;
+    }
+    
+    .simple-price-row.featured {
+        border-right: 3px solid var(--color-gold);
+    }
+    
+    .country-name {
+        font-size: 15px;
+    }
+    
+    .price-amount {
+        font-size: 15px;
+    }
+    
+    .simple-price-row.featured .price-amount {
+        padding: 2px 8px;
+        font-size: 14px;
+    }
+    
+    .simple-order-btn.active,
+    .simple-order-btn.disabled {
+        padding: 10px 18px;
+        font-size: 13px;
+    }
 }
 
 /* Mobile Portrait */
@@ -2067,6 +2317,25 @@ ul, ol {
     .video-cta-description {
         font-size: 0.9rem;
     }
+    
+    /* Simple Pricing Grid Small Mobile */
+    .simple-price-row {
+        padding: 10px 12px;
+    }
+    
+    .country-name {
+        font-size: 14px;
+    }
+    
+    .price-amount {
+        font-size: 14px;
+    }
+    
+    .simple-order-btn.active,
+    .simple-order-btn.disabled {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
 }
 
 /* Small Mobile */
@@ -2094,6 +2363,22 @@ ul, ol {
     
     .video-player-container {
         min-height: 250px;
+    }
+    
+    /* Simple Pricing Grid Extra Small */
+    .simple-pricing-grid {
+        max-width: 100%;
+        border-radius: 6px;
+    }
+    
+    .simple-price-row {
+        padding: 8px 10px;
+    }
+    
+    .simple-order-btn.active,
+    .simple-order-btn.disabled {
+        padding: 7px 12px;
+        font-size: 11px;
     }
 }
 
