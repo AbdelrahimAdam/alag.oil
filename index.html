@@ -2239,7 +2239,7 @@
     <!-- Overlay for mobile menu -->
     <div class="nav-overlay" id="navOverlay"></div>
 
-  <!-- Hero Section - نصف الشاشة -->
+<!-- Hero Section - نصف الشاشة -->
 <section class="hero" id="home">
     <div class="hero-background">
         <img src="assets/images/hero-bg.jpg" alt="زيت العلق الأصلي" class="hero-product-image">
@@ -2309,6 +2309,16 @@
                             <span class="price-currency">جنيه مصري</span>
                             <div class="price-note">توصيل خلال 48 ساعة</div>
                         </div>
+                        
+                        <div class="price-card">
+                            <div class="price-country">
+                                <span class="country-flag-icon">🇦🇪</span>
+                                <span class="country-name">الإمارات</span>
+                            </div>
+                            <div class="price-amount">350</div>
+                            <span class="price-currency">درهم إماراتي</span>
+                            <div class="price-note">توصيل يومي</div>
+                        </div>
                     </div>
 
                     <div class="hero-scroll-indicator" onclick="scrollToVideo()">
@@ -2329,14 +2339,15 @@
         </div>
     </div>
 </section>
+
 <style>
-    /* Static Prices Grid - بدلاً من الأسعار المتحركة */
+    /* Static Prices Grid - تصميم عمودين على الموبايل */
     .static-prices-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: var(--spacing-sm);
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xs);
         margin-top: var(--spacing-md);
-        padding: var(--spacing-sm);
+        padding: var(--spacing-xs);
         background: rgba(212, 175, 55, 0.05);
         border-radius: var(--radius-md);
         border: 1px solid rgba(212, 175, 55, 0.1);
@@ -2344,16 +2355,17 @@
 
     .price-card {
         background: rgba(26, 26, 26, 0.8);
-        border-radius: var(--radius-md);
-        padding: var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        padding: var(--spacing-xs);
         border: 1px solid rgba(212, 175, 55, 0.2);
         text-align: center;
         transition: var(--transition-normal);
         backdrop-filter: blur(10px);
-        min-height: 110px;
+        min-height: 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 
     .price-card:hover {
@@ -2366,40 +2378,47 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: var(--spacing-xs);
-        margin-bottom: 4px;
-    }
-
-    .country-flag-icon {
-        font-size: var(--text-base);
-    }
-
-    .country-name {
-        font-size: var(--text-xs);
-        color: var(--color-white);
-        font-weight: 500;
-    }
-
-    .price-amount {
-        font-size: var(--text-lg);
-        font-weight: 700;
-        color: var(--color-gold);
-        margin: 4px 0;
-        line-height: 1.2;
-    }
-
-    .price-currency {
-        font-size: var(--text-xs);
-        color: var(--color-light-gray);
-        display: block;
+        gap: 4px;
         margin-bottom: 2px;
     }
 
-    .price-note {
+    .country-flag-icon {
+        font-size: var(--text-sm);
+    }
+
+    .country-name {
         font-size: 0.7rem;
+        color: var(--color-white);
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .price-amount {
+        font-size: var(--text-base);
+        font-weight: 700;
+        color: var(--color-gold);
+        margin: 2px 0;
+        line-height: 1.1;
+    }
+
+    .price-currency {
+        font-size: 0.65rem;
+        color: var(--color-light-gray);
+        display: block;
+        margin-bottom: 1px;
+    }
+
+    .price-note {
+        font-size: 0.6rem;
         color: var(--color-lighter-gray);
-        margin-top: 2px;
-        line-height: 1.2;
+        margin-top: 1px;
+        line-height: 1.1;
+        text-align: center;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 2px;
     }
 
     /* تعديلات للبطاقة الرئيسية لجعلها أقصر */
@@ -2439,7 +2458,7 @@
         font-size: var(--text-sm);
         line-height: 1.5;
         margin-bottom: var(--spacing-md);
-        max-height: 300px;
+        max-height: 280px;
         overflow-y: auto;
         padding: var(--spacing-xs);
         background: rgba(0, 0, 0, 0.2);
@@ -2466,10 +2485,41 @@
     }
 
     /* تعديلات للمقاسات الكبيرة */
+    @media (min-width: 375px) {
+        .static-prices-grid {
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+        }
+        
+        .price-card {
+            padding: var(--spacing-sm);
+            min-height: 110px;
+        }
+        
+        .price-amount {
+            font-size: var(--text-lg);
+        }
+        
+        .country-name {
+            font-size: var(--text-xs);
+        }
+        
+        .price-currency {
+            font-size: var(--text-xs);
+        }
+        
+        .price-note {
+            font-size: 0.7rem;
+            white-space: normal;
+            line-height: 1.2;
+        }
+    }
+
     @media (min-width: 640px) {
         .static-prices-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-md);
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
         }
         
         .price-card {
@@ -2510,7 +2560,11 @@
         
         .hero-description {
             font-size: var(--text-base);
-            max-height: 280px;
+            max-height: 260px;
+        }
+        
+        .static-prices-grid {
+            grid-template-columns: repeat(4, 1fr);
         }
     }
 
@@ -2520,10 +2574,14 @@
         }
         
         .static-prices-grid {
-            grid-template-columns: repeat(3, 1fr);
-            max-width: 600px;
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+        }
+        
+        .price-card {
+            min-height: 130px;
         }
     }
 </style>
