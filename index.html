@@ -2210,31 +2210,312 @@
         <div class="loading-subtitle">قوة بهدوء... ثقة تدوم</div>
     </div>
 
-    <!-- Header Navigation -->
-    <header id="main-header">
-        <div class="container header-container">
-            <a href="#home" class="brand-logo">
-                <img src="assets/images/logo.png" alt="زيت العلق Logo" class="logo-img">
-                <span class="logo-text">زيت العلق</span>
-            </a>
+  <!-- Header Navigation -->
+<header id="main-header">
+    <div class="container header-container">
+        <a href="#home" class="brand-logo">
+            <img src="assets/images/logo.png" alt="زيت العلق Logo" class="logo-img">
+            <span class="logo-text">زيت العلق</span>
+        </a>
 
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة">
-                <i class="fas fa-bars"></i>
-            </button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة">
+            <i class="fas fa-bars"></i>
+        </button>
 
-            <nav class="main-nav" id="mainNav">
-                <ul class="nav-links">
-                    <li><a href="#home" class="nav-link active">الرئيسية</a></li>
-                    <li><a href="#product" class="nav-link">تفاصيل المنتج</a></li>
-                    <li><a href="#story" class="nav-link">قصة المنتج</a></li>
-                    <li><a href="#works" class="nav-link">كيف يعمل</a></li>
-                    <li><a href="#pricing" class="nav-link">الأسعار</a></li>
-                    <li><a href="#contact" class="nav-link">اتصل بنا</a></li>
-                    <li><a href="#contact" class="btn btn-primary btn-small">اطلب الآن</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        <nav class="main-nav" id="mainNav">
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">الرئيسية</a></li>
+                <li><a href="#product" class="nav-link">تفاصيل المنتج</a></li>
+                <li><a href="#story" class="nav-link">قصة المنتج</a></li>
+                <li><a href="#works" class="nav-link">كيف يعمل</a></li>
+                <li><a href="#pricing" class="nav-link">الأسعار</a></li>
+                <li><a href="#contact" class="nav-link">اتصل بنا</a></li>
+                <li><a href="#contact" class="btn btn-primary btn-small">اطلب الآن</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<style>
+    /* Header Navigation CSS */
+    #main-header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        background-color: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 1000;
+        padding: var(--spacing-sm) var(--container-padding);
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        transition: var(--transition-normal);
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        position: relative;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-family: var(--font-heading);
+        font-size: var(--text-lg);
+        font-weight: 700;
+        color: var(--color-gold);
+        z-index: 1001;
+        text-decoration: none;
+    }
+
+    .logo-img {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-circle);
+        object-fit: cover;
+        border: 2px solid var(--color-gold);
+    }
+
+    .logo-text {
+        font-size: var(--text-xl);
+        letter-spacing: 1px;
+    }
+
+    /* Mobile Menu Button - يجب أن يكون مرئي على الموبايل فقط */
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: var(--color-white);
+        font-size: var(--text-xl);
+        cursor: pointer;
+        padding: var(--spacing-xs);
+        transition: var(--transition-fast);
+        min-width: 44px;
+        min-height: 44px;
+        z-index: 1001;
+    }
+
+    @media (min-width: 769px) {
+        .mobile-menu-btn {
+            display: none; /* إخفاء على الديسكتوب */
+        }
+    }
+
+    .mobile-menu-btn:hover {
+        color: var(--color-gold);
+    }
+
+    /* Navigation - Mobile First */
+    .main-nav {
+        display: none; /* مخفي بشكل افتراضي على الموبايل */
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 85%;
+        height: 100vh;
+        background: rgba(15, 15, 20, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 80px var(--spacing-lg) var(--spacing-xl);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
+    }
+
+    /* عندما تكون القائمة مفتوحة */
+    .main-nav.open {
+        display: flex;
+        right: 0;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        width: 100%;
+    }
+
+    .nav-link {
+        color: var(--color-white);
+        font-weight: 500;
+        font-size: var(--text-lg);
+        padding: var(--spacing-md) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-normal);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--color-gold);
+        background: rgba(212, 175, 55, 0.1);
+        transform: translateX(-5px);
+    }
+
+    /* Overlay */
+    .nav-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+
+    .nav-overlay.open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Desktop Navigation - يجب أن يكون مرئي على الديسكتوب */
+    @media (min-width: 769px) {
+        .main-nav {
+            display: flex !important; /* إجبار الظهور على الديسكتوب */
+            position: static;
+            height: auto;
+            background: transparent;
+            backdrop-filter: none;
+            padding: 0;
+            width: auto;
+            box-shadow: none;
+            overflow: visible;
+            right: 0 !important;
+        }
+
+        .nav-links {
+            flex-direction: row;
+            gap: var(--spacing-md);
+        }
+
+        .nav-link {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: none;
+            font-size: var(--text-base);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: transparent;
+            transform: none;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    // Mobile Menu JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        // إنشاء عنصر الـ overlay إذا لم يكن موجوداً
+        let navOverlay = document.getElementById('navOverlay');
+        if (!navOverlay) {
+            navOverlay = document.createElement('div');
+            navOverlay.className = 'nav-overlay';
+            navOverlay.id = 'navOverlay';
+            document.body.appendChild(navOverlay);
+        }
+
+        function toggleMenu() {
+            const isOpen = mainNav.classList.contains('open');
+            
+            if (isOpen) {
+                // إغلاق القائمة
+                mainNav.classList.remove('open');
+                navOverlay.classList.remove('open');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = 'auto';
+            } else {
+                // فتح القائمة
+                mainNav.classList.add('open');
+                navOverlay.classList.add('open');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+                mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // إضافة Event Listeners
+        if (mobileMenuBtn && mainNav && navOverlay) {
+            mobileMenuBtn.addEventListener('click', toggleMenu);
+            navOverlay.addEventListener('click', toggleMenu);
+
+            // إغلاق القائمة عند النقر على رابط
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            // إغلاق القائمة بمفتاح Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mainNav.classList.contains('open')) {
+                    toggleMenu();
+                }
+            });
+        }
+
+        // التأكد من أن القائمة تظهر على الديسكتوب
+        function handleResize() {
+            if (window.innerWidth >= 769) {
+                // على الديسكتوب، تأكد من أن القائمة مفتوحة
+                mainNav.classList.add('open');
+                navOverlay.classList.remove('open');
+                document.body.style.overflow = 'auto';
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            } else {
+                // على الموبايل، إذا كانت القائمة مفتوحة، أعد تعيين الحالة
+                if (mainNav.classList.contains('open')) {
+                    mainNav.classList.remove('open');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                }
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // استدعاء أولي
+    });
+</script>
 
     <!-- Overlay for mobile menu -->
     <div class="nav-overlay" id="navOverlay"></div>
@@ -2278,36 +2559,70 @@
                         <p><strong>*نتائج دائمه وفعاله وامنه ومضمونه</strong></p>
                     </div>
 
-                    <!-- Static Prices Grid -->
-                    <div class="static-prices-grid">
-                        <div class="price-card">
-                            <div class="price-country">
-                                <span class="country-flag-icon">🇸🇩</span>
-                                <span class="country-name">السودان</span>
+                    <!-- Moving Prices Grid -->
+                    <div class="prices-slider-container">
+                        <div class="prices-slider-track">
+                            <!-- Original 3 cards -->
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇸🇩</span>
+                                    <span class="country-name">السودان</span>
+                                </div>
+                                <div class="price-amount">155,000</div>
+                                <span class="price-currency">جنيه سوداني</span>
+                                <div class="price-note">التوصيل مجاناً</div>
                             </div>
-                            <div class="price-amount">155,000</div>
-                            <span class="price-currency">جنيه سوداني</span>
-                            <div class="price-note">التوصيل مجاناً</div>
-                        </div>
 
-                        <div class="price-card">
-                            <div class="price-country">
-                                <span class="country-flag-icon">🇸🇦</span>
-                                <span class="country-name">السعودية</span>
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇸🇦</span>
+                                    <span class="country-name">السعودية</span>
+                                </div>
+                                <div class="price-amount">300</div>
+                                <span class="price-currency">ريال سعودي</span>
+                                <div class="price-note">شحن سريع 2-3 أيام</div>
                             </div>
-                            <div class="price-amount">300</div>
-                            <span class="price-currency">ريال سعودي</span>
-                            <div class="price-note">شحن سريع 2-3 أيام</div>
-                        </div>
 
-                        <div class="price-card">
-                            <div class="price-country">
-                                <span class="country-flag-icon">🇪🇬</span>
-                                <span class="country-name">مصر</span>
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇪🇬</span>
+                                    <span class="country-name">مصر</span>
+                                </div>
+                                <div class="price-amount">1,500</div>
+                                <span class="price-currency">جنيه مصري</span>
+                                <div class="price-note">توصيل خلال 48 ساعة</div>
                             </div>
-                            <div class="price-amount">1,500</div>
-                            <span class="price-currency">جنيه مصري</span>
-                            <div class="price-note">توصيل خلال 48 ساعة</div>
+                            
+                            <!-- Duplicate cards for seamless loop -->
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇸🇩</span>
+                                    <span class="country-name">السودان</span>
+                                </div>
+                                <div class="price-amount">155,000</div>
+                                <span class="price-currency">جنيه سوداني</span>
+                                <div class="price-note">التوصيل مجاناً</div>
+                            </div>
+
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇸🇦</span>
+                                    <span class="country-name">السعودية</span>
+                                </div>
+                                <div class="price-amount">300</div>
+                                <span class="price-currency">ريال سعودي</span>
+                                <div class="price-note">شحن سريع 2-3 أيام</div>
+                            </div>
+
+                            <div class="price-card">
+                                <div class="price-country">
+                                    <span class="country-flag-icon">🇪🇬</span>
+                                    <span class="country-name">مصر</span>
+                                </div>
+                                <div class="price-amount">1,500</div>
+                                <span class="price-currency">جنيه مصري</span>
+                                <div class="price-note">توصيل خلال 48 ساعة</div>
+                            </div>
                         </div>
                     </div>
 
@@ -2331,39 +2646,52 @@
 </section>
 
 <style>
-    /* Static Prices Grid - تصميم محسن يناسب البطاقة */
-    .static-prices-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+    /* Moving Prices Slider - حركة بطيئة ومتكررة */
+    .prices-slider-container {
+        width: 100%;
+        overflow: hidden;
         margin-top: var(--spacing-md);
         margin-bottom: var(--spacing-sm);
-        padding: 8px;
         background: rgba(212, 175, 55, 0.05);
         border-radius: 8px;
         border: 1px solid rgba(212, 175, 55, 0.1);
-        box-sizing: border-box;
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
+        position: relative;
+        padding: 10px 0;
+    }
+
+    .prices-slider-track {
+        display: flex;
+        width: max-content;
+        animation: slideSlowly 40s linear infinite;
+        padding: 0 5px;
+    }
+
+    @keyframes slideSlowly {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
     }
 
     .price-card {
         background: rgba(26, 26, 26, 0.8);
         border-radius: 6px;
-        padding: 6px 4px;
+        padding: 8px 6px;
         border: 1px solid rgba(212, 175, 55, 0.2);
         text-align: center;
         transition: var(--transition-normal);
         backdrop-filter: blur(10px);
-        min-height: 85px;
+        min-height: 90px;
+        width: 140px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
-        overflow: hidden;
-        flex: 1;
+        margin: 0 4px;
+        flex-shrink: 0;
     }
 
     .price-card:hover {
@@ -2376,56 +2704,56 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
-        margin-bottom: 2px;
+        gap: 5px;
+        margin-bottom: 3px;
         width: 100%;
     }
 
     .country-flag-icon {
-        font-size: 12px;
+        font-size: 14px;
         flex-shrink: 0;
     }
 
     .country-name {
-        font-size: 10px;
+        font-size: 11px;
         color: var(--color-white);
         font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 70px;
+        max-width: 80px;
     }
 
     .price-amount {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 700;
         color: var(--color-gold);
-        margin: 2px 0;
-        line-height: 1.1;
+        margin: 3px 0;
+        line-height: 1.2;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 95%;
     }
 
     .price-currency {
-        font-size: 10px;
+        font-size: 11px;
         color: var(--color-light-gray);
         display: block;
-        margin-bottom: 1px;
-        line-height: 1.1;
+        margin-bottom: 2px;
+        line-height: 1.2;
     }
 
     .price-note {
-        font-size: 9px;
+        font-size: 10px;
         color: var(--color-lighter-gray);
-        margin-top: 1px;
-        line-height: 1.1;
+        margin-top: 2px;
+        line-height: 1.2;
         text-align: center;
         max-width: 95%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding: 0 2px;
+        padding: 0 3px;
     }
 
     /* تعديلات للبطاقة الرئيسية */
@@ -2493,90 +2821,7 @@
         font-size: 12px;
     }
 
-    /* تعديلات للمقاسات الكبيرة */
-    @media (min-width: 375px) {
-        .static-prices-grid {
-            gap: 10px;
-            padding: 10px;
-        }
-        
-        .price-card {
-            padding: 8px 6px;
-            min-height: 90px;
-        }
-        
-        .price-amount {
-            font-size: 15px;
-        }
-        
-        .country-name {
-            font-size: 11px;
-            max-width: 80px;
-        }
-        
-        .price-currency {
-            font-size: 11px;
-        }
-        
-        .price-note {
-            font-size: 10px;
-        }
-    }
-
-    @media (min-width: 640px) {
-        .static-prices-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding: 12px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .price-card {
-            min-height: 100px;
-            padding: 10px 8px;
-        }
-        
-        .price-amount {
-            font-size: 18px;
-        }
-        
-        .country-name {
-            font-size: 12px;
-            max-width: 90px;
-        }
-        
-        .country-flag-icon {
-            font-size: 14px;
-        }
-        
-        .price-currency {
-            font-size: 12px;
-        }
-        
-        .price-note {
-            font-size: 11px;
-        }
-        
-        .hero-content-card {
-            padding: 20px;
-        }
-        
-        .hero-main {
-            font-size: 28px;
-        }
-        
-        .hero-sub {
-            font-size: 16px;
-        }
-        
-        .hero-description {
-            font-size: 14px;
-            max-height: 220px;
-        }
-    }
-
+    /* تعديلات للديسكتوب - إزالة scrollable container للنص */
     @media (min-width: 768px) {
         .hero-content-card {
             max-width: 95%;
@@ -2591,20 +2836,72 @@
             font-size: 18px;
         }
         
+        /* إزالة الـ scroll للنص على الديسكتوب */
         .hero-description {
+            max-height: none;
+            overflow-y: visible;
             font-size: 15px;
-            max-height: 200px;
+            padding: 12px;
         }
         
-        .static-prices-grid {
-            max-width: 550px;
-            gap: 15px;
-            padding: 15px;
+        .prices-slider-container {
+            margin-top: 20px;
+            margin-bottom: 15px;
         }
         
         .price-card {
+            width: 160px;
+            min-height: 100px;
+            padding: 10px 8px;
+            margin: 0 6px;
+        }
+        
+        .price-amount {
+            font-size: 18px;
+        }
+        
+        .country-name {
+            font-size: 12px;
+            max-width: 90px;
+        }
+        
+        .price-currency {
+            font-size: 12px;
+        }
+        
+        .price-note {
+            font-size: 11px;
+        }
+        
+        /* إبطاء الحركة أكثر على الديسكتوب */
+        .prices-slider-track {
+            animation: slideSlowly 50s linear infinite;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .hero-content-card {
+            max-width: 90%;
+            padding: 28px;
+        }
+        
+        .hero-description {
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 16px;
+        }
+        
+        .prices-slider-container {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .price-card {
+            width: 180px;
             min-height: 110px;
             padding: 12px 10px;
+            margin: 0 8px;
         }
         
         .price-amount {
@@ -2616,39 +2913,75 @@
             max-width: 100px;
         }
         
+        .country-flag-icon {
+            font-size: 16px;
+        }
+        
+        .price-currency {
+            font-size: 13px;
+        }
+        
         .price-note {
             font-size: 12px;
         }
+        
+        /* أبطأ حركة على الشاشات الكبيرة */
+        .prices-slider-track {
+            animation: slideSlowly 60s linear infinite;
+        }
     }
 
-    @media (min-width: 1024px) {
-        .hero-content-card {
-            max-width: 90%;
-            padding: 28px;
-        }
-        
-        .static-prices-grid {
-            max-width: 600px;
-            gap: 16px;
-            padding: 16px;
+    /* تعديلات للموبايل والصغير */
+    @media (max-width: 767px) {
+        .prices-slider-track {
+            animation: slideSlowly 30s linear infinite;
         }
         
         .price-card {
-            min-height: 115px;
-            padding: 14px 12px;
+            width: 120px;
+            min-height: 85px;
+            padding: 6px 4px;
+            margin: 0 3px;
         }
         
         .price-amount {
-            font-size: 22px;
+            font-size: 14px;
         }
         
         .country-name {
-            font-size: 14px;
-            max-width: 110px;
+            font-size: 10px;
+            max-width: 70px;
+        }
+        
+        .country-flag-icon {
+            font-size: 12px;
+        }
+        
+        .price-currency {
+            font-size: 10px;
         }
         
         .price-note {
-            font-size: 13px;
+            font-size: 9px;
+        }
+    }
+
+    /* Pause animation on hover */
+    .prices-slider-container:hover .prices-slider-track {
+        animation-play-state: paused;
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+        .prices-slider-track {
+            animation: none;
+            transform: none;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .price-card {
+            margin: 0 8px;
         }
     }
 </style>
